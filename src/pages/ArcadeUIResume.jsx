@@ -273,8 +273,8 @@ export default function ArcadeUIResume() {
 
                 <Button asChild className="rounded-none border-2 border-pink-400 bg-pink-500/10 uppercase tracking-[0.2em] text-pink-200 hover:bg-pink-500/20 hover:shadow-[0_0_16px_rgba(217,70,239,0.22)]">
                   <a
-                  download="Omasan_Edegbele_ATS.pdf"
-                      href="/Omasan_Edegbele_ATS.pdf"
+                  download="Omasan_Edegbele_ATS_Final.pdf"
+                      href="/Omasan_Edegbele_ATS_Final.pdf"
                       target="_blank"
                     rel="noopener noreferrer">
                     Download Resume
