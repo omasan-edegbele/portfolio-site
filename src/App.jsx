@@ -5,7 +5,6 @@ import MLProjects from "./pages/MLProjects";
 import SEProjects from "./pages/SEProjects";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import Resume from "./pages/Resume";
 import RetroLayout from "./RetroLayout";
 import CursorTrail from "./CursorTrail";
 import ArcadeUIResume from "./pages/ArcadeUIResume";
@@ -25,11 +24,11 @@ export default function App() {
       <Route path="/" element={<Navigate to="/start" replace />} />
       <Route path="/start" element={<StartScreen />} />
       <Route path="/home" element={<SiteLayout><Home /></SiteLayout>} />
-      <Route path="/MLProjects" element={<SiteLayout><MLProjects /></SiteLayout>} />
-      <Route path="/SEProjects" element={<SiteLayout><SEProjects /></SiteLayout>} />
+      <Route path="/mlprojects" element={<SiteLayout><MLProjects /></SiteLayout>} />
+      <Route path="/seprojects" element={<SiteLayout><SEProjects /></SiteLayout>} />
       <Route path="/about" element={<SiteLayout><About /></SiteLayout>} />
       <Route path="/contact" element={<SiteLayout><Contact /></SiteLayout>} />
-      <Route path="/ArcadeUIResume" element={<SiteLayout><ArcadeUIResume /></SiteLayout>} />
+      <Route path="/arcadeuiresume" element={<SiteLayout><ArcadeUIResume /></SiteLayout>} />
     </Routes>
   );
 }
