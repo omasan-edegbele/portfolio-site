@@ -1,8 +1,20 @@
 {
-  "name": "portfolio-site",
-  "private": true,
+  "name": "c",
   "version": "0.0.0",
+  "private": true,
+  "description": "<<<<<<< HEAD\r # portfolio-site\r Omasan Edegbele's portfolio.\r =======\r # React + Vite",
+  "homepage": "https://github.com/omasan-edegbele/portfolio-site#readme",
+  "bugs": {
+    "url": "https://github.com/omasan-edegbele/portfolio-site/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omasan-edegbele/portfolio-site.git"
+  },
+  "license": "ISC",
+  "author": "",
   "type": "module",
+  "main": "eslint.config.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
