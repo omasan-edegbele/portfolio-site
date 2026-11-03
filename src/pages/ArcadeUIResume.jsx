@@ -39,9 +39,9 @@ const quests = [
     subtitle: "Professional Computer Solutions",
     bullets: [
       "Jan 2024 – Present",
-      "Build and support financial and billing software systems for utility clients.",
-      "Improve workflows, reliability, and internal application functionality.",
-      "Translate business needs into maintainable software features and fixes.",
+      "Developed and maintained financial and billing systems for utility clients, ensuring high performance and reliability.",
+      "Collaborated with cross-functional teams to troubleshoot and resolve technical issues.",
+      "Translated complex business requirements into scalable software solutions to enhance internal workflows.",
     ],
   },
   {
@@ -136,7 +136,9 @@ function GradientBar({ value }) {
 export default function ArcadeUIResume() {
   const [activeSection, setActiveSection] = useState("profile");
   const [soundEnabled, setSoundEnabled] = useState(true);
+  const [musicPlaying, setMusicPlaying] = useState(false);
   const audioRef = useRef(null);
+  const musicRef = useRef(null);
 
   useEffect(() => {
     const style = document.createElement("style");
@@ -150,18 +152,41 @@ export default function ArcadeUIResume() {
       audioRef.current = new AudioContextCtor();
     }
 
+    musicRef.current = new Audio(encodeURI("/Pac-man theme remix - By Arsenic1987.mp3"));
+    musicRef.current.loop = true;
+    musicRef.current.volume = 0.22;
+    const music = musicRef.current;
+    const handlePlay = () => setMusicPlaying(true);
+    const handlePause = () => setMusicPlaying(false);
+    music.addEventListener("play", handlePlay);
+    music.addEventListener("pause", handlePause);
+
     return () => {
       document.head.removeChild(style);
+      music.removeEventListener("play", handlePlay);
+      music.removeEventListener("pause", handlePause);
+      music.pause();
+      music.currentTime = 0;
       if (audioRef.current && typeof audioRef.current.close === "function") {
         audioRef.current.close().catch(() => {});
       }
     };
   }, []);
 
-  const playBeep = (frequency = 520, duration = 0.04, type = "square") => {
-    if (!soundEnabled || !audioRef.current) return;
+  const ensureAudioContext = () => {
+    if (!audioRef.current) {
+      const AudioContextCtor = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextCtor) return null;
+      audioRef.current = new AudioContextCtor();
+    }
 
-    const ctx = audioRef.current;
+    return audioRef.current;
+  };
+
+  const playBeep = (frequency = 520, duration = 0.04, type = "square", volume = 0.025) => {
+    const ctx = ensureAudioContext();
+    if (!soundEnabled || !ctx) return;
+
     if (ctx.state === "suspended") {
       ctx.resume().catch(() => {});
     }
@@ -171,13 +196,41 @@ export default function ArcadeUIResume() {
     oscillator.type = type;
     oscillator.frequency.setValueAtTime(frequency, ctx.currentTime);
     gain.gain.setValueAtTime(0.0001, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.025, ctx.currentTime + 0.01);
+    gain.gain.linearRampToValueAtTime(volume, ctx.currentTime + 0.01);
     gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
     oscillator.connect(gain);
     gain.connect(ctx.destination);
     oscillator.start(ctx.currentTime);
     oscillator.stop(ctx.currentTime + duration);
   };
+
+  useEffect(() => {
+    const music = musicRef.current;
+    if (!music) return;
+
+    if (soundEnabled) {
+      music.volume = 0.22;
+      music.play().catch(() => {});
+    } else {
+      music.pause();
+      music.currentTime = 0;
+    }
+  }, [soundEnabled]);
+
+  useEffect(() => {
+    const handleInteraction = () => {
+      if (!soundEnabled || !musicRef.current) return;
+      musicRef.current.play().catch(() => {});
+    };
+
+    window.addEventListener("pointerdown", handleInteraction);
+    window.addEventListener("keydown", handleInteraction);
+
+    return () => {
+      window.removeEventListener("pointerdown", handleInteraction);
+      window.removeEventListener("keydown", handleInteraction);
+    };
+  }, [soundEnabled]);
 
   const activeLabel = useMemo(
     () => menuItems.find((item) => item.id === activeSection)?.label ?? "START",
@@ -205,7 +258,6 @@ export default function ArcadeUIResume() {
               <div className="mb-3 space-y-1">
                 <BootLine delay={0}>▸ BOOTING ARCADE PORTFOLIO SYSTEM...</BootLine>
                 <BootLine delay={0.1}>▸ LOADING PLAYER PROFILE...</BootLine>
-                <BootLine delay={0.2}>▸ STATUS: READY — PRESS START</BootLine>
               </div>
 
               <h1
@@ -226,8 +278,42 @@ export default function ArcadeUIResume() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-3 md:items-end">
-              <div className="w-full max-w-sm border-4 border-purple-400 bg-[#12061d]/90 p-3 text-xs text-purple-200 shadow-[0_0_18px_rgba(168,85,247,0.16)]">
+            <div className="col-auto">
+              <div className="align-top flex w-full max-w-sm flex-wrap gap-3 text-xs uppercase tracking-widest md:justify-right">
+                <div className="flex flex-col items-start gap-1">
+                  <Button
+                    onClick={() => {
+                      setSoundEnabled((prev) => {
+                        const next = !prev;
+                        if (next) {
+                          playBeep(300, 0.04, "sine");
+                        }
+                        return next;
+                      });
+                    }}
+                    className="rounded-none border-2 border-purple-400 bg-purple-500/10 uppercase tracking-[0.18em] text-purple-200 hover:bg-purple-500/20"
+                  >
+                    {soundEnabled ? <Volume2 className="mr-2 h-4 w-4" /> : <VolumeX className="mr-2 h-4 w-4" />}
+                    {soundEnabled ? "Sound On" : "Sound Off"}
+                  </Button>
+                  {musicPlaying && (
+                    <span className="pl-1 text-[15px] normal-case tracking-normal text-purple-300">
+                      Now playing: Pac-man theme remix by Arsenic1987
+                    </span>
+                  )}
+                </div>
+
+                <Button asChild className="rounded-none border-2 border-pink-400 bg-pink-500/10 uppercase tracking-[0.2em] text-pink-200 hover:bg-pink-500/20 hover:shadow-[0_0_16px_rgba(217,70,239,0.22)]">
+                  <a
+                  download="Omasan_Edegbele_ATS.pdf"
+                      href="/Omasan_Edegbele_ATS.pdf"
+                      target="_blank"
+                    rel="noopener noreferrer">
+                    Download Resume
+                  </a>
+                </Button>
+              </div>
+              {/* <div className="w-full max-w-sm border-4 border-purple-400 bg-[#12061d]/90 p-3 text-xs text-purple-200 shadow-[0_0_18px_rgba(168,85,247,0.16)]">
                 <div className="mb-2 flex items-center justify-between text-purple-300">
                   <span style={{ fontFamily: 'Press Start 2P, monospace', fontSize: '10px', lineHeight: 1.6 }}>[ MAIN MENU ]</span>
                   <Sparkles className="h-4 w-4" />
@@ -257,30 +343,9 @@ export default function ArcadeUIResume() {
                     );
                   })}
                 </div>
-              </div>
+              </div> */}
 
-              <div className="flex flex-wrap items-center gap-3">
-                <Button
-                  onClick={() => {
-                    setSoundEnabled((prev) => !prev);
-                    playBeep(300, 0.04, "sine");
-                  }}
-                  className="rounded-none border-2 border-purple-400 bg-purple-500/10 uppercase tracking-[0.18em] text-purple-200 hover:bg-purple-500/20"
-                >
-                  {soundEnabled ? <Volume2 className="mr-2 h-4 w-4" /> : <VolumeX className="mr-2 h-4 w-4" />}
-                  {soundEnabled ? "Sound On" : "Sound Off"}
-                </Button>
-
-                <Button asChild className="rounded-none border-2 border-pink-400 bg-pink-500/10 uppercase tracking-[0.2em] text-pink-200 hover:bg-pink-500/20 hover:shadow-[0_0_16px_rgba(217,70,239,0.22)]">
-                  <a
-                  download="Omasan_Edegbele_ATS_Final.pdf"
-                      href="/Omasan_Edegbele_ATS_Final.pdf"
-                      target="_blank"
-                    rel="noopener noreferrer">
-                    Download Resume
-                  </a>
-                </Button>
-              </div>
+              
             </div>
           </div>
         </motion.div>
@@ -364,7 +429,7 @@ export default function ArcadeUIResume() {
                   I’m a software engineer with a strong crossover between <span className="text-pink-300">AI/ML</span>, <span className="text-purple-300">Software Engineering</span>, and <span className="text-fuchsia-300">creative tech branding</span>. My work blends practical engineering with immersive presentation so the projects feel memorable, intentional, and visually cohesive.
                 </div>
                 <div className="border-4 border-pink-400 bg-gradient-to-br from-pink-500/8 to-purple-500/8 p-4 text-xs uppercase tracking-widest text-pink-200 shadow-[0_0_16px_rgba(217,70,239,0.12)]">
-                  <div className="mb-3 text-pink-300" style={{ fontFamily: 'Press Start 2P, monospace', fontSize: '10px', lineHeight: 1.6 }}>[ CHARACTER DATA ]</div>
+                  <div className="mb-3 text-pink-300" style={{ fontFamily: 'Press Start 2P, monospace', fontSize: '15px', lineHeight: 1.6 }}>[ CHARACTER DATA ]</div>
                   <div className="space-y-2">
                     <div>Origin: Software Engineering</div>
                     <div>Subclass: AI / ML Builder</div>
