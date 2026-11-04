@@ -144,6 +144,34 @@ export default function ArcadeUIResume() {
     const style = document.createElement("style");
     style.innerHTML = `
       @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;800&family=Press+Start+2P&display=swap');
+      .arcade-ui-resume {
+        font-size: calc(1rem + 5px);
+      }
+      .arcade-ui-resume [class~="text-xs"] {
+        font-size: calc(0.75rem + 5px) !important;
+      }
+      .arcade-ui-resume [class~="text-sm"] {
+        font-size: calc(0.875rem + 5px) !important;
+      }
+      .arcade-ui-resume [class~="text-base"] {
+        font-size: calc(1rem + 5px) !important;
+      }
+      .arcade-ui-resume [class~="text-2xl"] {
+        font-size: calc(1.5rem + 5px) !important;
+      }
+      .arcade-ui-resume [data-slot="badge"] {
+        height: auto;
+        min-height: 27px;
+        line-height: calc(1rem + 5px);
+      }
+      @media (min-width: 768px) {
+        .arcade-ui-resume [class~="md:text-base"] {
+          font-size: calc(1rem + 5px) !important;
+        }
+        .arcade-ui-resume [class~="md:text-4xl"] {
+          font-size: calc(2.25rem + 5px) !important;
+        }
+      }
     `;
     document.head.appendChild(style);
 
@@ -240,7 +268,7 @@ export default function ArcadeUIResume() {
   return (
     
     <div
-      className="min-h-screen overflow-hidden bg-gradient-to-br from-[#14081f] via-[#1a0f2e] to-[#0f0620] text-white"
+      className="arcade-ui-resume min-h-screen overflow-hidden bg-gradient-to-br from-[#14081f] via-[#1a0f2e] to-[#0f0620] text-white"
       style={{ fontFamily: 'Orbitron, sans-serif' }}
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(236,72,153,0.22),transparent_38%),radial-gradient(circle_at_bottom,rgba(168,85,247,0.18),transparent_40%)]" />
@@ -297,7 +325,7 @@ export default function ArcadeUIResume() {
                     {soundEnabled ? "Sound On" : "Sound Off"}
                   </Button>
                   {musicPlaying && (
-                    <span className="pl-1 text-[15px] normal-case tracking-normal text-purple-300">
+                    <span className="pl-1 text-[20px] normal-case tracking-normal text-purple-300">
                       Now playing: Pac-man theme remix by Arsenic1987
                     </span>
                   )}
@@ -429,7 +457,7 @@ export default function ArcadeUIResume() {
                   I’m a software engineer with a strong crossover between <span className="text-pink-300">AI/ML</span>, <span className="text-purple-300">Software Engineering</span>, and <span className="text-fuchsia-300">creative tech branding</span>. My work blends practical engineering with immersive presentation so the projects feel memorable, intentional, and visually cohesive.
                 </div>
                 <div className="border-4 border-pink-400 bg-gradient-to-br from-pink-500/8 to-purple-500/8 p-4 text-xs uppercase tracking-widest text-pink-200 shadow-[0_0_16px_rgba(217,70,239,0.12)]">
-                  <div className="mb-3 text-pink-300" style={{ fontFamily: 'Press Start 2P, monospace', fontSize: '15px', lineHeight: 1.6 }}>[ CHARACTER DATA ]</div>
+                  <div className="mb-3 text-pink-300" style={{ fontFamily: 'Press Start 2P, monospace', fontSize: '20px', lineHeight: 1.6 }}>[ CHARACTER DATA ]</div>
                   <div className="space-y-2">
                     <div>Origin: Software Engineering</div>
                     <div>Subclass: AI / ML Builder</div>
