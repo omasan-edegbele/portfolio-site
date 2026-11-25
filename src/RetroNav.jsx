@@ -44,26 +44,12 @@ export default function RetroNav() {
         </div>
         <div className="relative mx-auto flex h-14 max-w-6xl items-center justify-center px-4 sm:px-8">
           <nav className="flex items-center gap-8" aria-label="Main Navigation">
-            <NavLink className={linkClass} to="/about">
+            {/* <NavLink className={linkClass} to="/about">
               About Me
-            </NavLink>
-            <NavLink className={linkClass} to="/contact">
-              Contact
-            </NavLink>
+            </NavLink> */}
             <NavLink className={linkClass} to="/home">
               Home
             </NavLink>
-
-            <button
-              onClick={toggleTheme}
-              className="ml-2 grid h-9 w-9 place-items-center rounded-md bg-white/5 ring-1 ring-white/10 text-white/80 hover:bg-white/10 hover:text-white transition"
-              aria-label="Toggle theme"
-              aria-pressed={theme === "retro"}
-              type="button"
-              title={theme === "retro" ? "Switch to Dark" : "Switch to Retro"}
-            >
-              <span className="text-xs">{theme === "retro" ? "🌙" : "✨"}</span>
-            </button>
           </nav>
 
         </div>

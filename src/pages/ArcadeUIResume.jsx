@@ -14,7 +14,10 @@ import {
   Volume2,
   VolumeX,
   Sparkles,
+  GraduationCap,
+  Mail,
 } from "lucide-react";
+import Contact from "./Contact";
 
 const skillData = [
   { name: "Software Engineering", value: 70 },
@@ -30,18 +33,19 @@ const equippedItems = [
   ".Net",
   "Git",
   "Visual Basic",
-  "C#"
+  "C#",
 ];
 
 const quests = [
   {
     title: "Application Developer",
-    subtitle: "Professional Computer Solutions",
+    subtitle: "Prof. Computer Solutions",
     bullets: [
       "Jan 2024 – Present",
-      "Developed and maintained financial and billing systems for utility clients, ensuring high performance and reliability.",
-      "Collaborated with cross-functional teams to troubleshoot and resolve technical issues.",
-      "Translated complex business requirements into scalable software solutions to enhance internal workflows.",
+      "Develop, enhance, and maintain enterprise-level financial and billing applications for utility industry clients",
+      "Optimize application performance, reliability, and operational efficiency through system enhancements and workflow improvements",
+      "Collaborate with stakeholders to translate complex business requirements into scalable, maintainable software solutions",
+      "Diagnose and resolve production issues, implement bug fixes, and maintain application stability to ensure uninterrupted business operations"
     ],
   },
   {
@@ -62,6 +66,7 @@ const bossBattles = [
   {
     title: "YOLOv8 Object Detection System",
     type: "AI / ML",
+    url: "https://github.com/omasan-edegbele/YOLOv8-Object-Detection-for-Autonomous-Vehicle-Scenarios",
     bullets: [
       "Trained an object-detection pipeline on 5.6k+ autonomous-vehicle images.",
       "Worked across 11 detection classes including cars, buses, bikes, and trucks.",
@@ -71,6 +76,7 @@ const bossBattles = [
   {
     title: "Sales Analysis Dashboard",
     type: "AI/ML",
+    url: "https://github.com/omasan-edegbele/Sales-Analysis",
     bullets: [
       "Extracted actionable insights that support sales strategy, regional investment decisions, and marketing optimization.",
     ],
@@ -78,17 +84,25 @@ const bossBattles = [
 ];
 
 const achievements = [
-  "University of Nebraska Omaha — B.S. Computer Science, 2023",
-  "Purdue University - Professional Certificate in AI & Machine Learning, 2026",
+  {
+    institution: "University of Nebraska Omaha",
+    credential: "B.S. Computer Science",
+    year: "2023",
+  },
+  {
+    institution: "Purdue University",
+    credential: "Professional Certificate in AI & Machine Learning",
+    year: "2025",
+  },
 ];
 
 const menuItems = [
-  { id: "profile", label: "START", icon: User },
-  { id: "skills", label: "VIEW SKILLS", icon: Cpu },
-  { id: "quests", label: "QUEST LOG", icon: TerminalSquare },
-  { id: "bosses", label: "BOSS BATTLES", icon: Swords },
-  { id: "achievements", label: "ACHIEVEMENTS", icon: Trophy },
-  { id: "projects", label: "LOADOUT", icon: FolderKanban },
+  { id: "profile", label: "PROFILE / ABOUT", icon: User },
+  { id: "skills", label: "PLAYER STATS", icon: Cpu },
+  { id: "quests", label: "EXPERIENCE", icon: TerminalSquare },
+  { id: "bosses", label: "FEATURED PROJECTS", icon: Swords },
+  { id: "achievements", label: "EDUCATION", icon: Trophy },
+  { id: "contact", label: "CONTACT", icon: Mail },
 ];
 
 function PixelPanel({ title, children, className = "" }) {
@@ -97,7 +111,7 @@ function PixelPanel({ title, children, className = "" }) {
       className={`rounded-none border-4 border-fuchsia-400 bg-black/75 shadow-[0_0_0_2px_#000,0_0_22px_rgba(217,70,239,0.24)] backdrop-blur-sm ${className}`}
     >
       <CardContent className="p-0">
-        <div className="border-b-4 border-fuchsia-400 bg-gradient-to-r from-pink-500/15 via-fuchsia-500/10 to-purple-500/15 px-4 py-2 text-sm tracking-widest text-pink-300" style={{ fontFamily: 'Press Start 2P, monospace', lineHeight: 1.6 }}>
+        <div className="border-b-4 border-fuchsia-400 bg-gradient-to-r from-pink-500/15 via-fuchsia-500/10 to-purple-500/15 px-4 py-2 text-sm tracking-widest text-pink-300" style={{ fontFamily: "'Press Start 2P', monospace", lineHeight: 1.6 }}>
           {title}
         </div>
         <div className="p-4 md:p-5">{children}</div>
@@ -106,15 +120,14 @@ function PixelPanel({ title, children, className = "" }) {
   );
 }
 
-function BootLine({ children, delay = 0 }) {
+function BootLine({ children, delay = 0}) {
   return (
     <motion.div
       initial={{ opacity: 0, x: -8 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.35, delay }}
-      className="text-sm text-pink-300"
-      style={{ fontFamily: 'Orbitron, sans-serif' }}
-    >
+      className="text-sm text-pink-300 mb-3"
+      style={{ fontFamily: "'Press Start 2P', monospace", lineHeight: 1.6 }}>
       {children}
     </motion.div>
   );
@@ -134,7 +147,7 @@ function GradientBar({ value }) {
 }
 
 export default function ArcadeUIResume() {
-  const [activeSection, setActiveSection] = useState("profile");
+  const [activeSection, setActiveSection] = useState("quests");
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [musicPlaying, setMusicPlaying] = useState(false);
   const audioRef = useRef(null);
@@ -143,7 +156,7 @@ export default function ArcadeUIResume() {
   useEffect(() => {
     const style = document.createElement("style");
     style.innerHTML = `
-      @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;800&family=Press+Start+2P&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;800&family=Pixelify+Sans:wght@400&family=Press+Start+2P&display=swap');
       .arcade-ui-resume {
         font-size: calc(1rem + 5px);
       }
@@ -260,11 +273,6 @@ export default function ArcadeUIResume() {
     };
   }, [soundEnabled]);
 
-  const activeLabel = useMemo(
-    () => menuItems.find((item) => item.id === activeSection)?.label ?? "START",
-    [activeSection]
-  );
-
   return (
     
     <div
@@ -275,85 +283,69 @@ export default function ArcadeUIResume() {
       <div className="pointer-events-none absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:28px_28px]" />
 
       <div id="resume-pdf" className="relative mx-auto max-w-5xl px-4 py-6 md:px-8 md:py-8">
+        <div className="mb-6 flex flex-col gap-6 md:flex-row md:items-stretch">
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45 }}
-          className="mb-6 border-4 border-pink-400 bg-black/70 p-4 shadow-[0_0_0_2px_#000,0_0_26px_rgba(217,70,239,0.24)] backdrop-blur-sm"
-        >
-          <div className="grid gap-4 grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] items-center">
-            <div>
-              <div className="mb-3 space-y-1">
-                <BootLine delay={0}>▸ BOOTING ARCADE PORTFOLIO SYSTEM...</BootLine>
+          className="min-w-0 flex-1 border-4 border-pink-400 bg-black/70 p-4 shadow-[0_0_0_2px_#000,0_0_26px_rgba(217,70,239,0.24)] backdrop-blur-sm">
+          <div className="items-center">
+            <div className="items-center flex flex-wrap gap-2 text-xs uppercase tracking-widest">
+              {/* <div className="mb-2 space-y-1">
                 <BootLine delay={0.1}>▸ LOADING PLAYER PROFILE...</BootLine>
-              </div>
-
-              <h1
-                className="text-2xl font-black uppercase tracking-[0.18em] text-pink-300 md:text-4xl"
-                style={{ fontFamily: 'Press Start 2P, monospace', lineHeight: 1.3 }}
-              >
+              </div> */}
+              <h1 className="text-2xl font-black uppercase tracking-[0.18em] text-pink-300 md:text-4xl text-center" style={{ fontFamily: "'Press Start 2P', monospace", lineHeight: 1.4 }}>
                 Omasan Edegbele
               </h1>
-
-              <p className="mt-3 text-sm uppercase tracking-[0.25em] text-purple-300 md:text-base">
-                LVL 99 Software Engineer · AI / ML 
+              <p className="mt-3 text-sm uppercase tracking-[0.25em] text-purple-300 md:text-base" style={{ fontFamily: "'Press Start 2P', monospace", lineHeight: 1.0 }}>
+                ▸Software Developer
               </p>
-
-              <div className="mt-4 flex flex-wrap gap-2 text-xs uppercase tracking-widest">
-                <Badge className="rounded-none border border-pink-400 bg-pink-500/10 text-pink-300 hover:bg-pink-500/20">Omaha, Nebraska</Badge>
-                <Badge className="rounded-none border border-purple-400 bg-purple-500/10 text-purple-300 hover:bg-purple-500/20">Portfolio Ready</Badge>
-                <Badge className="rounded-none border border-fuchsia-400 bg-fuchsia-500/10 text-fuchsia-300 hover:bg-fuchsia-500/20">Creative Tech Brand</Badge>
-              </div>
             </div>
-
-            <div className="col-auto">
-              <div className="align-top flex w-full max-w-sm flex-wrap gap-3 text-xs uppercase tracking-widest md:justify-right">
-                <div className="flex flex-col items-start gap-1">
-                  <Button
-                    onClick={() => {
-                      setSoundEnabled((prev) => {
-                        const next = !prev;
-                        if (next) {
-                          playBeep(300, 0.04, "sine");
-                        }
-                        return next;
-                      });
-                    }}
-                    className="rounded-none border-2 border-purple-400 bg-purple-500/10 uppercase tracking-[0.18em] text-purple-200 hover:bg-purple-500/20"
-                  >
-                    {soundEnabled ? <Volume2 className="mr-2 h-4 w-4" /> : <VolumeX className="mr-2 h-4 w-4" />}
-                    {soundEnabled ? "Sound On" : "Sound Off"}
-                  </Button>
-                  {musicPlaying && (
-                    <span className="pl-1 text-[20px] normal-case tracking-normal text-purple-300">
-                      Now playing: Pac-man theme remix by Arsenic1987
-                    </span>
-                  )}
+            <div className="mt-4 mb-4 flex flex-wrap items-center gap-3 text-xs uppercase tracking-widest col-auto">
+                <div className="flex items-center gap-3">
+                  <Badge className="rounded-none border border-pink-400 bg-pink-500/10 text-pink-300 hover:bg-pink-500/20">Omaha, Nebraska</Badge>
+                    <Button
+                      onClick={() => {
+                        setSoundEnabled((prev) => {
+                          const next = !prev;
+                          if (next) {
+                            playBeep(300, 0.04, "sine");
+                          }
+                          return next;
+                        });
+                      }}
+                      className="rounded-none border-2 border-purple-400 bg-purple-500/10 uppercase tracking-[0.18em] text-purple-200 hover:bg-purple-500/20">
+                      {soundEnabled ? <Volume2 className="mr-2 h-4 w-4" /> : <VolumeX className="mr-2 h-4 w-4" />}
+                      {soundEnabled ? "Sound On" : "Sound Off"}
+                    </Button>
+                    {/* <span>
+                      {musicPlaying && (
+                        <p className="pl-1 text-[20px] normal-case tracking-normal text-purple-300">
+                          Now playing: Pac-man theme  remix by Arsenic1987
+                        </p>
+                      )}
+                    </span> */}
+                </div>                  
+             </div>          
+          </div>
+        </motion.div>
+        <motion.div 
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45 }}>
+          <div className="flex h-full max-w-sm flex-col border-4 border-purple-400 bg-[#12061d]/90 p-3 text-xs text-center text-purple-200 shadow-[0_0_18px_rgba(168,85,247,0.16)]">
+                <div className="relative mb-2 flex items-center justify-center text-purple-300">
+                   <h3  style={{ fontFamily: 'Pixelify Sans, monospace', fontSize: '25px', lineHeight: 1.6 }}>[ MAIN MENU ]</h3>
+                    <Sparkles className="absolute right-0 h-4 w-4" />
                 </div>
-
-                <Button asChild className="rounded-none border-2 border-pink-400 bg-pink-500/10 uppercase tracking-[0.2em] text-pink-200 hover:bg-pink-500/20 hover:shadow-[0_0_16px_rgba(217,70,239,0.22)]">
-                  <a
-                  download="Omasan_Edegbele_ATS.pdf"
-                      href="/Omasan_Edegbele_ATS.pdf"
-                      target="_blank"
-                    rel="noopener noreferrer">
-                    Download Resume
-                  </a>
-                </Button>
-              </div>
-              {/* <div className="w-full max-w-sm border-4 border-purple-400 bg-[#12061d]/90 p-3 text-xs text-purple-200 shadow-[0_0_18px_rgba(168,85,247,0.16)]">
-                <div className="mb-2 flex items-center justify-between text-purple-300">
-                  <span style={{ fontFamily: 'Press Start 2P, monospace', fontSize: '10px', lineHeight: 1.6 }}>[ MAIN MENU ]</span>
-                  <Sparkles className="h-4 w-4" />
-                </div>
-
-                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                <div className="grid flex-1 auto-rows-fr grid-cols-1 gap-2 sm:grid-cols-2">
                   {menuItems.map((item) => {
                     const Icon = item.icon;
                     const isActive = activeSection === item.id;
                     return (
                       <button
                         key={item.id}
+                        aria-pressed={isActive}
                         onClick={() => {
                           setActiveSection(item.id);
                           playBeep(680, 0.05, "square");
@@ -365,46 +357,82 @@ export default function ArcadeUIResume() {
                             : "border-purple-500/60 bg-transparent text-purple-200 hover:border-pink-400 hover:bg-pink-500/5 hover:text-pink-300 hover:shadow-[0_0_16px_rgba(217,70,239,0.16)]"
                         } hover:scale-[1.02]`}
                       >
-                        <Icon className="h-4 w-4" />
-                        <span className="text-[11px] tracking-widest">{item.label}</span>
+                        <Icon className="h-5 w-5" />
+                        <span className="text-[13px] tracking-widest">{item.label}</span>
                       </button>
                     );
                   })}
                 </div>
-              </div> */}
-
-              
-            </div>
-          </div>
+           </div>
         </motion.div>
-
-        <div className="mb-4 text-sm uppercase tracking-[0.2em] text-purple-300">
-          Active Screen: {activeLabel}
         </div>
+        
+      {activeSection === "quests" && (
+      <PixelPanel title="EXPERIENCE">
+              <div className="grid grid-cols-1 gap-4">
+                {quests.map((quest, i) => (
+                  <motion.div
+                    key={quest.title}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.08 * i }}
+                    className="border-2 border-purple-500/50 bg-[#12061d]/85 p-4 shadow-[0_0_16px_rgba(168,85,247,0.08)]">
+                    <div className="text-[25px] uppercase tracking-[0.18em] text-purple-300"
+                    style={{ fontFamily: "'Pixelify Sans', monospace" }}>
+                      {quest.title}
+                    </div>
 
-        <div className="grid gap-6 lg:grid-cols-[320px_1fr]">
-          <div className="space-y-6">
+                    <Badge className="mb-3 mt-2 rounded-none border border-pink-400 bg-pink-500/10 text-pink-300 hover:bg-pink-500/10">
+                      {quest.subtitle}
+                    </Badge>
+
+                    <ul className="space-y-2 text-base text-[5px] tracking-[0.1em] leading-8 text-zinc-200">
+                      {quest.bullets.map((bullet, idx) => (
+                        <li key={idx}>▸ {bullet}</li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                ))}
+              </div>
+            </PixelPanel>
+      )}
+
+        {activeSection !== "quests" && activeSection !== "contact" && (
+        <div className={`grid gap-6 ${activeSection === "skills" ? "lg:grid-cols-2" : ""}`}>
+          <div className="contents">
+            {activeSection === "skills" && (
             <PixelPanel title="PLAYER STATS">
               <div className="space-y-3 text-sm text-zinc-200">
-                <div className="flex justify-between gap-4 border-b border-zinc-700 pb-2">
-                  <span className="text-zinc-400">CLASS</span>
-                  <span className="text-pink-300">Engineer / Creator</span>
+                <div className="flex justify-between gap-12 border-b border-zinc-700 pb-2">
+                  <span className="text-zinc-400" style={{ fontFamily: "'Press Start 2P', monospace", lineHeight: 0.8 }}>
+                    CLASS
+                  </span>
+                  <span className="text-pink-300">Developer</span>
                 </div>
-                <div className="flex justify-between gap-4 border-b border-zinc-700 pb-2">
-                  <span className="text-zinc-400">SPECIALTY</span>
-                  <span className="text-purple-300">AI · Software Engineering · Fullstack</span>
+                <div className="flex justify-between gap-12 border-b border-zinc-700 pb-2">
+                  <span className="text-zinc-400" style={{ fontFamily: "'Press Start 2P', monospace", lineHeight: 0.8 }}>
+                    SPECIALTY
+                  </span>
+                  <span className="text-purple-300">Fullstack Software Development</span>
+                  
                 </div>
-                <div className="flex justify-between gap-4 border-b border-zinc-700 pb-2">
-                  <span className="text-zinc-400">EXP</span>
+                <div className="flex justify-between gap-12 border-b border-zinc-700 pb-2">
+                  <span className="text-zinc-400" style={{ fontFamily: "'Press Start 2P', monospace", lineHeight: 0.8 }}>
+                    EXP
+                  </span>
                   <span className="text-pink-300">4+ Years</span>
                 </div>
-                <div className="flex justify-between gap-4">
-                  <span className="text-zinc-400">STATUS</span>
-                  <span className="text-fuchsia-300">Available for Cool Quests</span>
+                <div className="flex justify-between gap-12">
+                  <span className="text-zinc-400" style={{ fontFamily: "'Press Start 2P', monospace", lineHeight: 0.8 }}>
+                    STATUS
+                  </span>
+                  <span className="text-fuchsia-300 align-right">Available for Work</span>
                 </div>
               </div>
             </PixelPanel>
 
+            )}
+            {activeSection === "skills" && (
             <PixelPanel title="XP PROGRESSION">
               <div className="space-y-4">
                 {skillData.map((skill, i) => (
@@ -412,8 +440,7 @@ export default function ArcadeUIResume() {
                     key={skill.name}
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.06 * i }}
-                  >
+                    transition={{ delay: 0.06 * i }}>               
                     <div className="mb-1 flex items-center justify-between text-xs uppercase tracking-widest">
                       <span className="text-purple-300">{skill.name}</span>
                       <span className="text-pink-300">{skill.value}%</span>
@@ -423,7 +450,9 @@ export default function ArcadeUIResume() {
                 ))}
               </div>
             </PixelPanel>
+            )}
 
+            {activeSection === "projects" && (
             <PixelPanel title="EQUIPPED LOADOUT">
               <div className="grid grid-cols-1 gap-2 text-xs uppercase tracking-widest">
                 {equippedItems.map((item, idx) => (
@@ -436,66 +465,62 @@ export default function ArcadeUIResume() {
                 ))}
               </div>
             </PixelPanel>
-            <PixelPanel title="ACHIEVEMENTS UNLOCKED">
-  <div className="grid grid-cols-1 gap-2 text-xs uppercase tracking-widest">
-    {achievements.map((achievement, idx) => (
-      <div
-        key={achievement}
-        className="border-2 border-pink-500/60 bg-gradient-to-r from-pink-500/8 to-fuchsia-500/8 px-3 py-2 text-pink-200 shadow-[0_0_10px_rgba(217,70,239,0.1)]"
-      >
-        [Unlocked {idx + 1}] ★ {achievement}
-      </div>
-    ))}
-  </div>
-</PixelPanel>
-          </div>
-
-          <div className="space-y-6">
-            <PixelPanel title="PROFILE / ABOUT">
-              <div className="grid gap-4 md:grid-cols-[1.1fr_0.9fr]">
-                <div className="text-sm leading-7 text-zinc-200">
-                  I’m a software engineer with a strong crossover between <span className="text-pink-300">AI/ML</span>, <span className="text-purple-300">Software Engineering</span>, and <span className="text-fuchsia-300">creative tech branding</span>. My work blends practical engineering with immersive presentation so the projects feel memorable, intentional, and visually cohesive.
-                </div>
-                <div className="border-4 border-pink-400 bg-gradient-to-br from-pink-500/8 to-purple-500/8 p-4 text-xs uppercase tracking-widest text-pink-200 shadow-[0_0_16px_rgba(217,70,239,0.12)]">
-                  <div className="mb-3 text-pink-300" style={{ fontFamily: 'Press Start 2P, monospace', fontSize: '20px', lineHeight: 1.6 }}>[ CHARACTER DATA ]</div>
-                  <div className="space-y-2">
-                    <div>Origin: Software Engineering</div>
-                    <div>Subclass: AI / ML Builder</div>
-                    <div>Faction: Arcade Portfolio Mode</div>
-                  </div>
-                </div>
-              </div>
-            </PixelPanel>
-
-            <PixelPanel title="QUEST LOG — EXPERIENCE">
-              <div className="grid gap-4 xl:grid-cols-2">
-                {quests.map((quest, i) => (
+            )}
+            {activeSection === "achievements" && (
+            <PixelPanel title="EDUCATION">
+              <div className="relative space-y-4 before:absolute before:bottom-4 before:left-[21px] before:top-4 before:w-[2px] before:bg-gradient-to-b before:from-pink-400 before:via-fuchsia-500 before:to-purple-500">
+                {achievements.map((achievement, idx) => (
                   <motion.div
-                    key={quest.title}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.08 * i }}
-                    className="border-2 border-purple-500/50 bg-[#12061d]/85 p-4 shadow-[0_0_16px_rgba(168,85,247,0.08)]"
+                    key={`${achievement.institution}-${achievement.year}`}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.08 * idx }}
+                    className="relative pl-14"
                   >
-                    <div className="text-sm uppercase tracking-[0.18em] text-purple-300">
-                      {quest.title}
+                    <div className="absolute left-0 top-5 flex h-11 w-11 items-center justify-center border-2 border-pink-400 bg-[#14071d] text-pink-300 shadow-[0_0_16px_rgba(217,70,239,0.22)]">
+                      <GraduationCap className="h-5 w-5" />
                     </div>
-
-                    <Badge className="mb-3 mt-2 rounded-none border border-pink-400 bg-pink-500/10 text-pink-300 hover:bg-pink-500/10">
-                      {quest.subtitle}
-                    </Badge>
-
-                    <ul className="space-y-2 text-sm text-zinc-200">
-                      {quest.bullets.map((bullet, idx) => (
-                        <li key={idx}>▸ {bullet}</li>
-                      ))}
-                    </ul>
+                    <div className="border-l-2 border-pink-500/60 bg-gradient-to-r from-pink-500/10 via-fuchsia-500/5 to-transparent px-4 py-4">
+                      <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+                        <Badge className="rounded-none border border-pink-400 bg-pink-500/10 text-pink-300 hover:bg-pink-500/10">
+                          {achievement.year}
+                        </Badge>
+                        <span className="text-[10px] tracking-[0.24em] text-purple-300">COMPLETED</span>
+                      </div>
+                      <h3
+                        className="text-xl leading-7 text-purple-200 md:text-2xl"
+                        style={{ fontFamily: "'Pixelify Sans', monospace" }}
+                      >
+                        {achievement.institution}
+                      </h3>
+                      <p
+                        className="mt-2 text-sm leading-6 tracking-[0.08em] text-zinc-200"
+                        style={{ fontFamily: "'Orbitron', monospace" }}
+                      >
+                        {achievement.credential}
+                      </p>
+                    </div>
                   </motion.div>
                 ))}
               </div>
             </PixelPanel>
+            )}
+          </div>
 
-            <PixelPanel title="BOSS BATTLES — FEATURED PROJECTS">
+          <div className="contents">
+            {activeSection === "profile" && (
+            <PixelPanel title="PROFILE / ABOUT"  className={{ fontFamily: "'Press Start 2P', monospace", lineHeight: 1.4 }}>
+              <div className="grid gap-4 md:grid-cols-1">
+                <div className="text-[25px] tracking-[0.1em] leading-7 text-zinc-200"
+                 style={{ fontFamily: "'Orbitron', monospace", lineHeight: 1.4 }}>
+                  I’m a software engineer with a strong crossover between <span className="text-pink-300">AI/ML</span>, and <span className="text-purple-300">Software Engineering</span>. My work blends practical engineering with immersive presentation so the projects feel memorable, intentional, and visually cohesive.
+                </div>
+              </div>
+            </PixelPanel>
+            )}
+
+            {activeSection === "bosses" && (
+            <PixelPanel title="FEATURED PROJECTS">
               <div className="grid gap-4 xl:grid-cols-2">
                 {bossBattles.map((battle, i) => (
                   <motion.div
@@ -504,20 +529,33 @@ export default function ArcadeUIResume() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.08 * i }}
                     className="border-2 border-purple-500/50 bg-[#12061d]/85 p-4 shadow-[0_0_16px_rgba(168,85,247,0.08)]"
-                  >
-                    <div className="text-sm uppercase tracking-[0.18em] text-purple-300">{battle.title}</div>
+                    >
+                    <div className="text-[25px] uppercase tracking-[0.2em] text-purple-300"
+                    style={{ fontFamily: "'Pixelify Sans', monospace" }}>{battle.title}</div>
                     <Badge className="mb-3 mt-2 rounded-none border border-pink-400 bg-pink-500/10 text-pink-300 hover:bg-pink-500/10">{battle.type}</Badge>
-                    <ul className="space-y-2 text-sm text-zinc-200">
+                    <ul className="space-y-2 text-[15px] tracking-[0.2em] text-zinc-200">
                       {battle.bullets.map((bullet) => (
                         <li key={bullet}>▸ {bullet}</li>
                       ))}
                     </ul>
+                    <a
+                      href={battle.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 inline-flex border-2 border-pink-400 bg-pink-500/10 px-5 py-2 text-xs text-pink-200 transition hover:bg-pink-500/20"
+                    >
+                      View Project →
+                    </a>
                   </motion.div>
                 ))}
               </div>
             </PixelPanel>
+            )}
           </div>
         </div>
+        )}
+
+        {activeSection === "contact" && <Contact />}
 
         <div
           className="mt-6 border-4 border-pink-400 bg-black/80 px-4 py-3 text-center text-xs uppercase tracking-[0.28em] text-pink-300 shadow-[0_0_16px_rgba(217,70,239,0.25)]"

@@ -1,6 +1,7 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;800&family=Press+Start+2P&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -206,6 +207,39 @@ button:focus-visible {
   0%   { text-shadow: 0 0 6px rgba(255,170,255,0.3); }
   50%  { text-shadow: 0 0 18px rgba(255,170,255,0.6); }
   100% { text-shadow: 0 0 6px rgba(255,170,255,0.3); }
+}
+
+.side-decorations {
+  --decoration-inset: clamp(16px, calc((100vw - 1280px) / 2), 8vw);
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  overflow: hidden;
+  pointer-events: none;
+  display: none;
+}
+
+.side-decoration {
+  position: absolute;
+  top: 50%;
+  width: clamp(110px, 10vw, 148px);
+  height: auto;
+  image-rendering: pixelated;
+  transform: translateY(-50%);
+}
+
+.side-decoration-left {
+  left: max(0px, calc(var(--decoration-inset) - 16px));
+}
+
+.side-decoration-right {
+  right: max(0px, calc(var(--decoration-inset) - 16px));
+}
+
+@media (min-width: 1280px) {
+  .side-decorations {
+    display: block;
+  }
 }
 
 @layer base {

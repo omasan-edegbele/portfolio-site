@@ -13,7 +13,7 @@ function SiteLayout({ children }) {
   return (
     <>
       <CursorTrail />
-      <RetroLayout>{children}</RetroLayout>
+      <RetroLayout>{children}</RetroLayout>A
     </>
   );
 }
@@ -21,7 +21,7 @@ function SiteLayout({ children }) {
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/start" replace />} />
+      <Route path="/" element={<Navigate to="/arcadeuiresume" replace />} />
       <Route path="/start" element={<StartScreen />} />
       <Route path="/home" element={<SiteLayout><Home /></SiteLayout>} />
       <Route path="/mlprojects" element={<SiteLayout><MLProjects /></SiteLayout>} />
